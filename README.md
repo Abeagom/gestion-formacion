@@ -1,8 +1,11 @@
 # Práctica sobre Gestión de Formación (FCT)
 
 Aplicación web desarrollada con **Spring Boot** para la gestión de la Fase de Formación en Empresa (FCT) de los alumnos.
+
 ![Estado](https://img.shields.io/badge/Estado-En%20Desarrollo-yellow?style=flat-square)
+
 ![Java](https://img.shields.io/badge/Java-17-orange?style=flat-square&logo=openjdk)
+
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.10-brightgreen?style=flat-square&logo=springboot)
 
 ## Tecnologías
