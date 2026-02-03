@@ -1,4 +1,4 @@
-package com.daw.gestion_formacion;
+package com.daw.gestionformacion;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

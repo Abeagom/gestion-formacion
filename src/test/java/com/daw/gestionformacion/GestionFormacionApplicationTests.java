@@ -1,4 +1,4 @@
-package com.daw.gestion_formacion;
+package com.daw.gestionformacion;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
