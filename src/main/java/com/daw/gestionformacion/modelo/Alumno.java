@@ -1,6 +1,7 @@
 package com.daw.gestionformacion.modelo;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,8 +10,16 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 
 @Entity
 @Table(name = "alumnos")
@@ -20,9 +29,22 @@ public class Alumno {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotBlank(message = "El nombre es obligatorio")
+    @Size(max = 50, message = "El nombre no puede superar 50 caracteres")
     private String nombre;
+    
+    @NotBlank(message = "Los apellidos son obligatorios")
+    @Size(max = 100, message = "Los apellidos no pueden superar 100 caracteres")
     private String apellidos;
+    
+    @NotBlank(message = "El email es obligatorio")
+    @Email(message = "Formato de email no válido")
+    @Column(unique = true)
     private String email;
+    
+    @NotNull(message = "La fecha de nacimiento es obligatoria")
+    @Past(message = "La fecha de nacimiento debe ser anterior a hoy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fechaNacimiento;
 
     @ManyToOne

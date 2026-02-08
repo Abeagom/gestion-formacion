@@ -1,0 +1,43 @@
+<header th:fragment="header" class="sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
+        <div class="container">
+			<a class="navbar-brand fw-bold d-flex align-items-center" th:href="@{/}">
+			    <span class="text-success">|</span> GESTIÓN FORMACIÓN
+			</a>
+            
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link px-3" th:href="@{/alumnos}">Alumnos</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" th:href="@{/empresas}">Empresas</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" th:href="@{/practicas}">Prácticas</a></li>
+                    
+                    <li class="nav-item dropdown" th:if="${#authorization.expression('hasRole(''DIRECTIVA'')')}">
+                        <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Administración
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark shadow" aria-labelledby="adminDropdown">
+                            <li><a class="dropdown-item" th:href="@{/directiva/profesores}">Profesores</a></li>
+                            <li><a class="dropdown-item" th:href="@{/directiva/cursos}">Cursos</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <div class="d-flex align-items-center border-start-lg border-secondary ps-lg-4">
+                    <div class="text-light me-3 small">
+                        <i class="bi bi-person-circle me-1"></i>
+                        <span sec:authentication="name" class="fw-light"></span>
+                    </div>
+                    <form th:action="@{/logout}" method="post" class="m-0">
+                        <button type="submit" class="btn btn-sm btn-danger rounded-pill px-3">
+                            <i class="bi bi-box-arrow-right me-1"></i> Cerrar sesión
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>

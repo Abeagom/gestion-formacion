@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.daw.gestionformacion.modelo.Practica;
 
-public interface PracticaRepository extends JpaRepository<Practica, Integer> {
+public interface PracticaRepositorio extends JpaRepository<Practica, Integer> {
 
 }
