@@ -31,6 +31,16 @@ public class GestionFormacionApplication {
 	            );
 	            repositorio.save(directiva);
 	        }
+	        if(repositorio.findByEmail("profesor@iescamas.es").isEmpty()) {
+	            Profesor profesor = new Profesor(
+	                "Profesor",
+	                "Profesor",
+	                "profesor@iescamas.es",
+	                codificador.encode("1234"),
+	                TipoProfesor.PROFESOR
+	            );
+	            repositorio.save(profesor);
+	        }
 	    };
 	}
 

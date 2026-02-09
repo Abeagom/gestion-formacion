@@ -35,12 +35,8 @@ public class AlumnoControlador {
     }
 
     @GetMapping
-    public String listar(@RequestParam(required = false) Integer cursoId, Model model) {
-        if (cursoId != null) {
-            model.addAttribute("alumnos", alumnoServicio.obtenerPorCurso(cursoId));
-        } else {
-            model.addAttribute("alumnos", alumnoServicio.obtenerTodos());
-        }
+    public String listar(Model model) {
+        model.addAttribute("alumnos", alumnoServicio.obtenerTodos());
         model.addAttribute("cursos", cursoServicio.obtenerTodos());
         return "alumnos/lista";
     }
