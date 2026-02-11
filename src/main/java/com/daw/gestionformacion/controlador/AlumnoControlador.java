@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.daw.gestionformacion.modelo.Alumno;
+import com.daw.gestionformacion.modelo.ImportacionResultado;
 import com.daw.gestionformacion.servicio.AlumnoServicio;
 import com.daw.gestionformacion.servicio.CsvServicio;
 import com.daw.gestionformacion.servicio.CursoServicio;
@@ -43,12 +44,15 @@ public class AlumnoControlador {
 
     @PostMapping("/cargar")
     public String importar (@RequestParam("ficheroCsv") MultipartFile fichero, RedirectAttributes mensaje) {
-        try {
-            csvServicio.cargarAlumnosDesdeCsv(fichero);
-            mensaje.addFlashAttribute("mensaje", "¡Importación exitosa!");
-        } catch (Exception e) {
-            mensaje.addFlashAttribute("error", "Error: " + e.getMessage());
-        }
+    	ImportacionResultado importacionResultado = csvServicio.cargarAlumnosDesdeCsv(fichero);
+    	
+    	if(importacionResultado.getExito() != null) {
+    		mensaje.addFlashAttribute("exito", importacionResultado.getExito());
+    	}
+    	
+    	if(importacionResultado.getError() != null || !importacionResultado.getError().isEmpty()) {
+    		mensaje.addFlashAttribute("errores", importacionResultado.getError());
+    	}
         return "redirect:/alumnos";
     }
     
