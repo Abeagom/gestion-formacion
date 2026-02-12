@@ -12,15 +12,17 @@ import com.daw.gestionformacion.repositorio.AlumnoRepositorio;
 public class AlumnoServicio {
     
     private final AlumnoRepositorio alumnoRepositorio;
-    private final CsvServicio csvServicio;
 
-    public AlumnoServicio(AlumnoRepositorio alumnoRepositorio, CsvServicio csvServicio) {
+    public AlumnoServicio(AlumnoRepositorio alumnoRepositorio) {
         this.alumnoRepositorio = alumnoRepositorio;
-        this.csvServicio=csvServicio;
     }
 
     public List<Alumno> obtenerTodos() {
         return alumnoRepositorio.findAll();
+    }
+    
+    public List<Alumno> obtenerTodosOrdenados() {
+        return alumnoRepositorio.findAllByOrderByApellidosAscNombreAsc();
     }
     
     public Alumno obtenerPorId(Integer id) {
@@ -29,10 +31,6 @@ public class AlumnoServicio {
     
     public List<Alumno> obtenerPorCurso(Integer cursoId) {
         return alumnoRepositorio.findByCursoId(cursoId);
-    }
-    
-    public void importar(MultipartFile archivo) throws Exception {
-        csvServicio.cargarAlumnosDesdeCsv(archivo);
     }
     
     public void guardar(Alumno alumno){

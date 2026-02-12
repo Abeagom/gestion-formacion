@@ -34,16 +34,19 @@
 							<div class="mb-3">
 								<label class="form-label" th:text="#{alumnos.tabla.nombre}">Nombre</label>
 								<input type="text" th:field="*{nombre}" class="form-control" required>
+								<div class="text-danger mt-1" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
 							</div>
 
 							<div class="mb-3">
 								<label class="form-label" th:text="#{alumnos.tabla.apellidos}">Apellidos</label>
 								<input type="text" th:field="*{apellidos}" class="form-control" required>
+								<div class="text-danger mt-1" th:if="${#fields.hasErrors('apellidos')}" th:errors="*{apellidos}"></div>
 							</div>
 
 							<div class="mb-3">
 								<label class="form-label" th:text="#{alumnos.tabla.email}">Email</label>
 								<input type="email" th:field="*{email}" class="form-control" required>
+								<div class="text-danger mt-1" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
 							</div>
 							<div class="mb-3">
 							    <label class="form-label" th:text="#{alumnos.tabla.fechaNacimiento}">Fecha de nacimiento</label>

@@ -37,12 +37,11 @@ public class AlumnoControlador {
 
     @GetMapping
     public String listar(Model model) {
-        model.addAttribute("alumnos", alumnoServicio.obtenerTodos());
-        model.addAttribute("cursos", cursoServicio.obtenerTodos());
+        model.addAttribute("alumnos", alumnoServicio.obtenerTodosOrdenados());
         return "alumnos/lista";
     }
 
-    @PostMapping("/cargar")
+    @PostMapping("/importar")
     public String importar (@RequestParam("ficheroCsv") MultipartFile fichero, RedirectAttributes mensaje) {
     	ImportacionResultado importacionResultado = csvServicio.cargarAlumnosDesdeCsv(fichero);
     	
@@ -89,7 +88,6 @@ public class AlumnoControlador {
             return "redirect:/alumnos";
     	}
         model.addAttribute("alumno", alumno);
-        model.addAttribute("cursos", cursoServicio.obtenerTodos());
         return "alumnos/detalles-alumno";
     }
     

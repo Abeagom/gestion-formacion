@@ -32,7 +32,7 @@ public class Profesor {
     @Enumerated(EnumType.STRING)
     private TipoProfesor tipo; // DIRECTIVA o PROFESOR
     
-    @OneToMany(mappedBy = "profesor")
+    @OneToMany(mappedBy = "tutor")
     private List<Curso> cursos;
     
     public Profesor() {

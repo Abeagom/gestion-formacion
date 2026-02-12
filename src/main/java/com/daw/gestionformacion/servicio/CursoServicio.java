@@ -11,7 +11,6 @@ import com.daw.gestionformacion.repositorio.CursoRepositorio;
 public class CursoServicio {
 	private final CursoRepositorio cursoRepositorio;
 
-    // Inyección por constructor
     public CursoServicio(CursoRepositorio cursoRepositorio) {
         this.cursoRepositorio = cursoRepositorio;
     }
@@ -31,4 +30,12 @@ public class CursoServicio {
     public void guardar(Curso curso) {
         cursoRepositorio.save(curso);
     }
+
+	public Curso buscarPorNombre(String nombre) {
+		return cursoRepositorio.findByNombre(nombre);
+	}
+
+	public void eliminar(Integer id) {
+		cursoRepositorio.deleteById(id);	
+	}
 }

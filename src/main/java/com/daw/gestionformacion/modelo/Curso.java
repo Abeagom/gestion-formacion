@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -31,9 +32,10 @@ public class Curso {
 
     @ManyToOne
     @JoinColumn(name = "profesor_id")
-    private Profesor profesor; // Profesor que lo gestiona
+    private Profesor tutor; // Profesor que lo gestiona
 
     @OneToMany(mappedBy = "curso")
+    @OrderBy("apellidos ASC, nombre ASC")
     private List<Alumno> alumnos;
     
     public Curso() {
@@ -61,12 +63,12 @@ public class Curso {
 		this.nombre = nombre;
 	}
 
-	public Profesor getProfesor() {
-		return profesor;
+	public Profesor getTutor() {
+		return tutor;
 	}
 
-	public void setProfesor(Profesor profesor) {
-		this.profesor = profesor;
+	public void setTutor(Profesor tutor) {
+		this.tutor = tutor;
 	}
 
 	public List<Alumno> getAlumnos() {

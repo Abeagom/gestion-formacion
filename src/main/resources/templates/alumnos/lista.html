@@ -30,8 +30,8 @@
 				<table id="tablaAlumnos" class="table table-hover align-middle mb-0 shadow-sm">
 					<thead class="table-dark">
 						<tr>
-							<th th:text="#{alumnos.tabla.nombre}">Nombre</th>
 							<th th:text="#{alumnos.tabla.apellidos}">Apellidos</th>
+							<th th:text="#{alumnos.tabla.nombre}">Nombre</th>
 							<th th:text="#{alumnos.tabla.email}">Email</th>
 							<th th:text="#{alumnos.tabla.curso}">Curso</th>
 							<th class="text-center" th:text="#{alumnos.tabla.acciones}">Acciones</th>
@@ -39,8 +39,8 @@
 					</thead>
 					<tbody>
 						<tr th:each="alumno : ${alumnos}">
-							<td th:text="${alumno.nombre}"></td>
 							<td th:text="${alumno.apellidos}"></td>
+							<td th:text="${alumno.nombre}"></td>
 							<td th:text="${alumno.email}"></td>
 							<td> <span th:if="${alumno.curso != null}" th:text="${alumno.curso.nombre}"
 									class="badge bg-info text-dark"></span>
@@ -73,7 +73,7 @@
 					Importar Alumnos</h5>
 				<form th:action="@{/alumnos/importar}" method="post" enctype="multipart/form-data" class="row g-2 mt-1">
 					<div class="col-auto">
-						<input type="file" name="archivo" class="form-control form-control-sm" accept=".csv" required>
+						<input type="file" name="ficheroCsv" class="form-control form-control-sm" accept=".csv" required>
 					</div>
 					<div class="col-auto">
 						<button type="submit" class="btn btn-dark btn-sm">

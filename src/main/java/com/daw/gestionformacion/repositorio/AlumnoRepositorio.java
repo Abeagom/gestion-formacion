@@ -9,6 +9,7 @@ import com.daw.gestionformacion.modelo.Alumno;
 
 public interface AlumnoRepositorio extends JpaRepository<Alumno, Integer> {
 
+	List<Alumno> findAllByOrderByApellidosAscNombreAsc();
 	List<Alumno> findByCursoId(Integer cursoId);
 	Optional<Alumno> findById(Integer id);
 	Alumno findByEmail(String email);

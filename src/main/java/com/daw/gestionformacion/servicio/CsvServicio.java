@@ -30,7 +30,7 @@ public class CsvServicio {
 		ImportacionResultado resultado = new ImportacionResultado();
 		List<String> listaErrores = new ArrayList();
 		int contadorExitos = 0;
-		DateTimeFormatter formateador = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+		DateTimeFormatter formateador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		
 		//Comprobación de archivo vacío
 		if(archivoCsv.isEmpty()) {
@@ -96,8 +96,9 @@ public class CsvServicio {
 	}
 
 	private void procesarLinea(String linea, DateTimeFormatter fmt) throws Exception {
-		String[] campos = linea.split(";");
-		if (campos.length < 5) {
+		//String[] campos = linea.split(";");
+		String[] campos = linea.split(";", -1);
+		if (campos.length < 4) { //5
 			throw new IllegalArgumentException("Faltan datos en la fila");
 		}
 
@@ -147,19 +148,22 @@ public class CsvServicio {
 		}
 
 		// Para curso (se permite no tener curso al importar)
-		String idCursoStr = campos[4].trim();
-		if (!idCursoStr.isBlank()) {
-			try {
-				Integer idCurso = Integer.parseInt(idCursoStr);
-				Curso curso = cursoServicio.obtenerPorId(idCurso);
-				if (curso == null) {
-					throw new IllegalArgumentException("El curso con ID " + idCurso + " no existe.");
-				}
-				al.setCurso(curso);
+		// Solo intentamos leer la posición 4 si el array es lo bastante largo
+		String idCursoStr = (campos.length > 4) ? campos[4].trim() : "";
 
-			} catch (NumberFormatException e) {
-				throw new IllegalArgumentException("El ID del curso debe ser un número.");
-			}
+		if (!idCursoStr.isBlank()) {
+		    try {
+		        Integer idCurso = Integer.parseInt(idCursoStr);
+		        Curso curso = cursoServicio.obtenerPorId(idCurso);
+		        if (curso == null) {
+		            throw new IllegalArgumentException("El curso con ID " + idCurso + " no existe.");
+		        }
+		        al.setCurso(curso);
+		    } catch (NumberFormatException e) {
+		        throw new IllegalArgumentException("El ID del curso debe ser un número.");
+		    }
+		} else {
+		    al.setCurso(null);
 		}
 
 		// Si todo está bien, guardamos el alumno
