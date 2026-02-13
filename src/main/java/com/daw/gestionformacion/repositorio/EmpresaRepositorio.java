@@ -6,4 +6,6 @@ import com.daw.gestionformacion.modelo.Empresa;
 
 public interface EmpresaRepositorio extends JpaRepository<Empresa, Integer>{
 
+	Empresa findByNombre(String nombre);
+
 }
