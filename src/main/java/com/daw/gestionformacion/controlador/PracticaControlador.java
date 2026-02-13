@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.daw.gestionformacion.modelo.Practica;
 import com.daw.gestionformacion.servicio.AlumnoServicio;
+import com.daw.gestionformacion.servicio.EmailServicio;
 import com.daw.gestionformacion.servicio.EmpresaServicio;
 import com.daw.gestionformacion.servicio.PracticaServicio;
 
@@ -24,13 +25,16 @@ public class PracticaControlador {
 	private PracticaServicio practicaServicio;
     private AlumnoServicio alumnoServicio;
     private EmpresaServicio empresaServicio;
+    private EmailServicio emailServicio;
 
     public PracticaControlador(PracticaServicio practicaServicio, 
                                AlumnoServicio alumnoServicio, 
-                               EmpresaServicio empresaServicio) {
+                               EmpresaServicio empresaServicio,
+                               EmailServicio emailServicio) {
         this.practicaServicio = practicaServicio;
         this.alumnoServicio = alumnoServicio;
         this.empresaServicio = empresaServicio;
+        this.emailServicio = emailServicio;
     }
 
     @GetMapping
@@ -117,8 +121,18 @@ public class PracticaControlador {
         }
         
         practicaServicio.guardar(practica);
-        mensaje.addFlashAttribute("exito", esEdicion ? "Práctica actualizada correctamente." : "Práctica asignada correctamente.");
         
+        if (!esEdicion) {
+            try {
+                emailServicio.enviarEmailAsignacion(practica);
+                mensaje.addFlashAttribute("exito", "Práctica asignada y email enviado correctamente.");
+            } catch (Exception e) {
+                mensaje.addFlashAttribute("error", "Práctica guardada, pero hubo un problema al enviar el correo.");
+            }
+        }else {
+        	mensaje.addFlashAttribute("exito", "Práctica actualizada correctamente.");
+        }
+                
         return "redirect:/practicas";
     }
 }

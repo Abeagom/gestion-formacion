@@ -33,7 +33,14 @@ public class PracticaServicio {
     }
     
     public void eliminar(Integer id) {
-        practicaRepositorio.deleteById(id);
+        Practica practica = practicaRepositorio.findById(id).orElse(null);
+        
+        if (practica != null) {
+            if (practica.getAlumno() != null) {
+                practica.getAlumno().setPractica(null);
+            }
+            practicaRepositorio.delete(practica);
+        }
     }
     
     //Lista de alumnos sin prácticas
