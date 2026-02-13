@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Profesores - Gestión Formación</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.0.0/css/flag-icons.min.css" />
+</head>
+
+<body class="d-flex flex-column min-vh-100 bg-light">
+
+	<div th:replace="fragmentos/header :: header"></div>
+
+	<main class="flex-fill container mt-4">
+
+		<div class="row justify-content-center">
+		    <div class="col-md-6"> 
+		        <div class="card shadow border-0">
+		            <div class="card-header bg-primary text-white">
+		                <h4 class="mb-0">
+		                    <i class="bi bi-eye me-2"></i>
+		                    <span>Detalles del Profesor</span>
+		                </h4>
+		            </div>
+		            <div class="card-body p-4">
+		                
+		                <div class="mb-3">
+		                    <label class="form-label fw-bold">Nombre</label>
+		                    <input type="text" th:value="${profesor.nombre}" class="form-control-plaintext" readonly>
+		                </div>
+
+		                <div class="mb-3">
+		                    <label class="form-label fw-bold">Apellidos</label>
+		                    <input type="text" th:value="${profesor.apellidos}" class="form-control-plaintext" readonly>
+		                </div>
+
+		                <div class="mb-3">
+		                    <label class="form-label fw-bold">Email</label>
+		                    <input type="text" th:value="${profesor.email}" class="form-control-plaintext" readonly>
+		                </div>
+
+		                <div class="mb-3">
+		                    <label class="form-label fw-bold">Tipo de Profesor</label>
+		                    <input type="text" th:value="${profesor.tipo}" class="form-control-plaintext" readonly>
+		                </div>
+
+		                <div class="mb-3">
+		                    <label class="form-label fw-bold">Cursos que tutoriza</label>
+		                    
+		                    <div th:if="${not #lists.isEmpty(profesor.cursos)}">
+		                        <ul class="list-group list-group-flush">
+		                            <li th:each="c : ${profesor.cursos}" class="list-group-item d-flex justify-content-between align-items-center bg-transparent px-0">
+		                                <span th:text="${c.nombre}">Nombre del curso</span>
+		                            </li>
+		                        </ul>
+		                    </div>
+
+		                    <div th:unless="${not #lists.isEmpty(profesor.cursos)}"
+		                        class="alert alert-light border d-flex align-items-center mb-0 py-2 shadow-sm">
+		                        <i class="bi bi-info-circle-fill text-primary me-2"></i>
+		                        <small class="text-muted">
+		                            <span>Aún no tiene cursos asignados</span>
+		                        </small>
+		                    </div>
+		                </div>
+
+		                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+		                    <a th:href="@{/directiva/profesores}" class="btn btn-primary px-4">Volver</a>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+	</main>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+	<div th:replace="fragmentos/footer :: footer"></div>
+
+</body>
+
+</html>

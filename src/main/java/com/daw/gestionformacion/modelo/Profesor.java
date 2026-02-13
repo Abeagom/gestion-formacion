@@ -8,8 +8,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,19 +26,30 @@ public class Profesor {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+    @NotBlank(message = "El nombre es obligatorio")
+    @Size(max = 50, message = "El nombre no puede superar 50 caracteres")
 	private String nombre;
+    
+    @NotBlank(message = "Los apellidos son obligatorios")
+    @Size(max = 100, message = "Los apellidos no pueden superar 100 caracteres")
 	private String apellidos;
 	
+    @NotBlank(message = "El email es obligatorio")
+    @Email(message = "Formato de email no válido")
 	@Column(unique = true, nullable = false)
 	private String email;
 	
+    @NotBlank(message = "La contraseña es obligatoria")
+    @Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres")
 	@Column(nullable = false)
 	private String password;
 	
+    @NotNull(message = "El tipo de profesor es obligatorio")
     @Enumerated(EnumType.STRING)
     private TipoProfesor tipo; // DIRECTIVA o PROFESOR
     
     @OneToMany(mappedBy = "tutor")
+    @OrderBy("nombre ASC")
     private List<Curso> cursos;
     
     public Profesor() {
@@ -44,6 +61,7 @@ public class Profesor {
         this.email = email;
         this.password = password;
         this.tipo = tipo;
+        this.cursos = new ArrayList();
     }
 
     //Getters y Setters
