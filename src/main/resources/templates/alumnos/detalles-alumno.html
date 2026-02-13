@@ -64,7 +64,7 @@
 		                    <label class="form-label fw-bold" th:text="#{alumnos.tabla.practica}">Práctica</label>
 		                    <div th:if="${alumno.practica != null}">
 		                        <a th:href="@{/practicas/detalles/{id}(id=${alumno.practica.id})}"
-		                           th:text="${alumno.practica.descripcion}" class="d-block py-2"></a>
+		                            class="d-block py-2">Ver práctica</a>
 		                    </div>
 		                    <div th:unless="${alumno.practica != null}"
 		                        class="alert alert-light border d-flex align-items-center mb-0 py-2 shadow-sm">

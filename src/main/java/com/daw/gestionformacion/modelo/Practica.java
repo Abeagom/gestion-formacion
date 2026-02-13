@@ -9,6 +9,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
@@ -23,13 +24,18 @@ public class Practica {
 
     @OneToOne
     @JoinColumn(name = "alumno_id", unique = true)
+    @NotNull(message = "El alumno es obligatorio")
     private Alumno alumno;
 
     @ManyToOne
     @JoinColumn(name = "empresa_id")
+    @NotNull(message = "La empresa es obligatoria")
     private Empresa empresa;
 
+    @NotNull(message = "La fecha de inicio es obligatoria")
     private LocalDate fechaInicio;
+    
+    @NotNull(message = "La fecha de inicio es obligatoria")
     private LocalDate fechaFin;
 
     @Column(columnDefinition = "TEXT")
