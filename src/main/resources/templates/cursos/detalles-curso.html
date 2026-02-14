@@ -32,7 +32,10 @@
 						<div class="mb-3">
 						    <label class="form-label fw-bold">Tutor</label>
 						    <div th:if="${curso.tutor != null}">
-						        <input type="text" th:value="|${curso.tutor.nombre} ${curso.tutor.apellidos}|" class="form-control-plaintext" readonly>
+								<a th:href="@{/directiva/profesores/detalles/{id}(id=${curso.tutor.id})}" 
+								   class="text-primary text-decoration-underline-hover fw-medium">
+								    <span th:text="|${curso.tutor.nombre} ${curso.tutor.apellidos}|">Nombre tutor</span>
+								</a>
 						    </div>
 						    <div th:unless="${curso.tutor != null}"
 						        class="alert alert-light border d-flex align-items-center mb-0 py-2 shadow-sm">
@@ -48,7 +51,10 @@
 						    
 						    <div th:if="${not #lists.isEmpty(curso.alumnos)}" class="list-group">
 						        <div th:each="a : ${curso.alumnos}" class="list-group-item d-flex justify-content-between align-items-center">
-						            <span th:text="| ${a.apellidos}, ${a.nombre}|">Nombre completo Alumno</span>
+									<a th:href="@{/alumnos/detalles/{id}(id=${a.id})}" 
+									   class="text-primary text-decoration-underline-hover fw-medium">
+									    <span th:text="${a.nombre + ' ' + a.apellidos}">Nombre Alumno</span>
+									</a>
 						            <small class="text-muted" th:text="${a.email}"></small>
 						        </div>
 						    </div>

@@ -37,20 +37,20 @@
 					</thead>
 					<tbody>
 						<tr th:each="curso : ${cursos}">
-							<td th:text="${curso.nombre}"></td>
+							<td th:text="${curso.nombre}" class="fw-bold"></td>
 							<td> <span th:if="${curso.tutor != null}" th:text="|${curso.tutor.nombre} ${curso.tutor.apellidos}|"
-									class="badge bg-info text-dark"></span>
-								<span th:unless="${curso.tutor != null}">Sin tutor asignado</span>
+									></span>
+								<span th:unless="${curso.tutor != null}" class="text-danger">Sin tutor asignado</span>
 							</td>
 							<td class="text-center">
 								<div class="d-flex justify-content-center gap-2">
 									<a th:href="@{/directiva/cursos/detalles/{id}(id=${curso.id})}"
-										class="btn btn-outline-info btn-sm"><i class="bi bi-eye"></i></a>
+										class="btn btn-info btn-sm"><i class="bi bi-eye"></i></a>
 									<a th:href="@{/directiva/cursos/editar/{id}(id=${curso.id})}"
-										class="btn btn-outline-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
+										class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
 										<form th:action="@{/directiva/cursos/eliminar/{id}(id=${curso.id})}" method="post" style="display:inline;">
 										    <button type="submit" 
-										            class="btn btn-outline-danger btn-sm"
+										            class="btn btn-danger btn-sm"
 										            th:onclick="return confirm('¿Estás seguro de que deseas eliminar este curso?')">
 										        <i class="bi bi-trash3"></i>
 										    </button>
@@ -78,7 +78,17 @@
 					{"orderable": false, "targets": 2} // La columna de acciones no se ordena
 				],
 				"language": {
-				    "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"
+					"search": "Buscar:",
+					"lengthMenu": "Mostrar _MENU_ registros",
+					"info": "Mostrando _START_ a _END_ de _TOTAL_ cursos",
+					"zeroRecords": "No se encontraron resultados",
+					"infoEmpty": "No hay cursos para mostrar",
+					"paginate": {
+						"first": "«",
+						"last": "»",
+						"next": "›",
+						"previous": "‹"
+					}
 				},
 				"paging": true,
 				"lengthChange": true, // Para que se pueda elegir cuántos ver

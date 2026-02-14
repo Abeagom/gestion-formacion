@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.daw.gestionformacion.modelo.Practica;
@@ -44,9 +45,18 @@ public class PracticaControlador {
     }
 
     @GetMapping("/nuevo")
-    public String mostrarFormularioNuevo(Model model) {
-        model.addAttribute("practica", new Practica());
-        model.addAttribute("alumnos", practicaServicio.obtenerAlumnosDisponibles());
+    public String mostrarFormularioNuevo(@RequestParam(value = "alumnoId", required = false) Integer alumnoId, Model model) {
+        Practica practica = new Practica();
+        
+        // Si venimos desde la ficha del alumno, lo asignamos
+        if (alumnoId != null) {
+            practica.setAlumno(alumnoServicio.obtenerPorId(alumnoId));
+            model.addAttribute("alumnos", alumnoServicio.obtenerTodos()); 
+        } else {
+            model.addAttribute("alumnos", practicaServicio.obtenerAlumnosDisponibles());
+        }
+
+        model.addAttribute("practica", practica);
         model.addAttribute("empresas", empresaServicio.obtenerTodas());
         return "practicas/nuevo-practica"; 
     }

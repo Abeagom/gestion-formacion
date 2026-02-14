@@ -30,7 +30,7 @@
 							<div class="mb-3">
 								<label class="form-label fw-bold">Alumno</label>
 								<select th:field="*{alumno}" class="form-select" required>
-									<option value="">-- Selecciona un alumno --</option>
+									<option value="">Selecciona un alumno</option>
 									<option th:each="a : ${alumnos}" 
 									        th:value="${a.id}" 
 									        th:text="${a.apellidos + ', ' + a.nombre}">
@@ -42,7 +42,7 @@
 							<div class="mb-3">
 								<label class="form-label fw-bold">Empresa</label>
 								<select th:field="*{empresa}" class="form-select" required>
-									<option value="">-- Selecciona una empresa --</option>
+									<option value="">Selecciona una empresa</option>
 									<option th:each="e : ${empresas}" 
 									        th:value="${e.id}" 
 									        th:text="${e.nombre}">

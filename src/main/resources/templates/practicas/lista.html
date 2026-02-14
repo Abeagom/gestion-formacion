@@ -41,19 +41,19 @@
 						<tr th:each="practica : ${practicas}">
 							<td class="fw-bold" th:text="${practica.alumno.apellidos + ', ' + practica.alumno.nombre}"></td>
 							<td>
-                                <span class="badge bg-secondary" th:text="${practica.empresa.nombre}"></span>
+                                <span th:text="${practica.empresa.nombre}"></span>
                             </td>
 							<td th:text="${#temporals.format(practica.fechaInicio, 'dd/MM/yyyy')}"></td>
 							<td th:text="${practica.fechaFin != null ? #temporals.format(practica.fechaFin, 'dd/MM/yyyy') : 'Sin definir'}"></td>
 							<td class="text-center">
 								<div class="d-flex justify-content-center gap-2">
 									<a th:href="@{/practicas/detalles/{id}(id=${practica.id})}"
-										class="btn btn-outline-info btn-sm"><i class="bi bi-eye"></i></a>
+										class="btn btn-info btn-sm"><i class="bi bi-eye"></i></a>
 									<a th:href="@{/practicas/editar/{id}(id=${practica.id})}"
-										class="btn btn-outline-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
+										class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
 										<form th:action="@{/practicas/eliminar/{id}(id=${practica.id})}" method="post" style="display:inline;">
 										    <button type="submit" 
-										            class="btn btn-outline-danger btn-sm"
+										            class="btn btn-danger btn-sm"
 										            onclick="return confirm('¿Estás seguro de que deseas eliminar esta asignación de práctica?')">
 										        <i class="bi bi-trash3"></i>
 										    </button>

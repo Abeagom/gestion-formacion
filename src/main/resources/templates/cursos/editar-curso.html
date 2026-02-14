@@ -31,17 +31,17 @@
 							<input type="hidden" th:field="*{id}">
 
 							<div class="mb-3">
-								<label class="form-label">Nombre</label>
+								<label class="form-label fw-bold">Nombre</label>
 								<input type="text" th:field="*{nombre}" class="form-control" required>
 								<div class="text-danger mt-1" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
 							</div>
 
 							<div class="mb-3">
-								<label class="form-label">Tutor</label>
+								<label class="form-label fw-bold">Tutor</label>
 
 								<div th:if="${not #lists.isEmpty(profesores)}">
 									<select th:field="*{tutor}" class="form-select">
-										<option value="">-- Selecciona un tutor (Opcional) --</option>
+										<option value="">Sin tutor</option>
 										<option th:each="p : ${profesores}" th:value="${p.id}"
 											th:text="|${p.nombre} ${p.apellidos}|"></option>
 									</select>

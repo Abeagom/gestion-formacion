@@ -52,7 +52,10 @@
 		                    <div th:if="${not #lists.isEmpty(profesor.cursos)}">
 		                        <ul class="list-group list-group-flush">
 		                            <li th:each="c : ${profesor.cursos}" class="list-group-item d-flex justify-content-between align-items-center bg-transparent px-0">
-		                                <span th:text="${c.nombre}">Nombre del curso</span>
+										<a th:href="@{/directiva/cursos/detalles/{id}(id=${c.id})}" 
+										   class="text-primary text-decoration-underline-hover fw-medium">
+										    <span th:text="${c.nombre}">Nombre Curso</span>
+										</a>
 		                            </li>
 		                        </ul>
 		                    </div>

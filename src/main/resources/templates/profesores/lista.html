@@ -34,24 +34,24 @@
 							<th>Nombre</th>
 							<th>Email</th>
 							<th>Tipo</th>
-							<th>Acciones</th>
+							<th class="d-flex justify-content-center gap-2">Acciones</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr th:each="profesor : ${profesores}">
-							<td th:text="${profesor.apellidos}"></td>
-							<td th:text="${profesor.nombre}"></td>
+							<td th:text="${profesor.apellidos}" class="fw-bold"></td>
+							<td th:text="${profesor.nombre}" class="fw-bold"></td>
 							<td th:text="${profesor.email}"></td>
 							<td th:text="${profesor.tipo}"></td>
 							<td class="text-center">
 								<div class="d-flex justify-content-center gap-2">
 									<a th:href="@{/directiva/profesores/detalles/{id}(id=${profesor.id})}"
-										class="btn btn-outline-info btn-sm"><i class="bi bi-eye"></i></a>
+										class="btn btn-info btn-sm"><i class="bi bi-eye"></i></a>
 									<a th:href="@{/directiva/profesores/editar/{id}(id=${profesor.id})}"
-										class="btn btn-outline-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
+										class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
 										<form th:action="@{/directiva/profesores/eliminar/{id}(id=${profesor.id})}" method="post" style="display:inline;">
 										    <button type="submit" 
-										            class="btn btn-outline-danger btn-sm"
+										            class="btn btn-danger btn-sm"
 										            th:onclick="return confirm('¿Estás seguro de que deseas eliminar este profesor?')">
 										        <i class="bi bi-trash3"></i>
 										    </button>

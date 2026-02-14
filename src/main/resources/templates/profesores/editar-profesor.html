@@ -31,36 +31,36 @@
                             <input type="hidden" th:field="*{id}">
 
                             <div class="mb-3">
-                                <label class="form-label">Nombre</label>
+                                <label class="form-label fw-bold">Nombre</label>
                                 <input type="text" th:field="*{nombre}" class="form-control" required>
                                 <div class="text-danger mt-1" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label">Apellidos</label>
+                                <label class="form-label fw-bold">Apellidos</label>
                                 <input type="text" th:field="*{apellidos}" class="form-control" required>
                                 <div class="text-danger mt-1" th:if="${#fields.hasErrors('apellidos')}" th:errors="*{apellidos}"></div>
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label">Email</label>
+                                <label class="form-label fw-bold">Email</label>
                                 <input type="email" th:field="*{email}" class="form-control" required>
                                 <div class="text-danger mt-1" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label">Contraseña</label>
+                                <label class="form-label fw-bold">Contraseña</label>
                                 <input type="password" th:field="*{password}" class="form-control" placeholder="Dejar en blanco para no cambiar">
                                 <div class="text-danger mt-1" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
                             </div>
                             
                             <div class="mb-3">
-                                <label class="form-label">Confirmar Contraseña</label>
+                                <label class="form-label fw-bold">Confirmar Contraseña</label>
                                 <input type="password" name="confirmarPassword" class="form-control" placeholder="Repite la contraseña">
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label">Tipo de Profesor</label>
+                                <label class="form-label fw-bold">Tipo de Profesor</label>
                                 <select th:field="*{tipo}" class="form-select" required>
                                     <option value="">-- Selecciona un tipo --</option>
                                     <option th:each="t : ${tipoProfesor}" 

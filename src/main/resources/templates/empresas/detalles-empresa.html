@@ -48,26 +48,35 @@
 		                <div class="mb-3">
 		                    <label class="form-label fw-bold">Alumnos en Prácticas</label>
 		                    
-		                    <div th:if="${not #lists.isEmpty(empresa.practicas)}">
-		                        <div class="table-responsive border rounded p-2">
-                                    <table class="table table-sm table-hover mb-0">
-                                        <thead>
-                                            <tr>
-                                                <th>Alumno</th>
-                                                <th class="text-end">Acción</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr th:each="p : ${empresa.practicas}">
-                                                <td th:text="${p.alumno.nombre + ' ' + p.alumno.apellidos}"></td>
-                                                <td class="text-end">
-                                                    <a th:href="@{/practicas/detalles/{id}(id=${p.id})}" class="btn btn-link btn-sm p-0">Ver</a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-		                    </div>
+							<div th:if="${not #lists.isEmpty(empresa.practicas)}">
+							    <div class="table-responsive border rounded p-2 shadow-sm bg-white">
+							        <table class="table table-sm table-hover mb-0 align-middle">
+							            <thead class="table-light">
+							                <tr>
+							                    <th class="ps-2">Alumno</th>
+							                    <th class="text-end pe-2">Práctica</th>
+							                </tr>
+							            </thead>
+							            <tbody>
+							                <tr th:each="p : ${empresa.practicas}">
+							                    <td class="ps-2">
+							                        <a th:href="@{/alumnos/detalles/{id}(id=${p.alumno.id})}" 
+							                           class="text-primary text-decoration-underline-hover fw-medium">
+							                            <span th:text="${p.alumno.nombre + ' ' + p.alumno.apellidos}">Nombre Alumno</span>
+							                        </a>
+							                    </td>
+							                    
+							                    <td class="text-end pe-2">
+													<a th:href="@{/practicas/detalles/{id}(id=${p.id})}" 
+													   class="text-primary text-decoration-underline-hover fw-medium">
+													    Ver detalles
+													</a>
+							                    </td>
+							                </tr>
+							            </tbody>
+							        </table>
+							    </div>
+							</div>
                             
 		                    <div th:unless="${not #lists.isEmpty(empresa.practicas)}"
 		                        class="alert alert-light border d-flex align-items-center mb-0 py-2 shadow-sm">

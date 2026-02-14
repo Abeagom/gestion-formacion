@@ -13,6 +13,8 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 
 @Entity
 @Table(name = "practicas")
@@ -33,9 +35,11 @@ public class Practica {
     private Empresa empresa;
 
     @NotNull(message = "La fecha de inicio es obligatoria")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fechaInicio;
     
     @NotNull(message = "La fecha de inicio es obligatoria")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fechaFin;
 
     @Column(columnDefinition = "TEXT")

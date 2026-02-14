@@ -34,27 +34,37 @@
 							<th th:text="#{alumnos.tabla.nombre}">Nombre</th>
 							<th th:text="#{alumnos.tabla.email}">Email</th>
 							<th th:text="#{alumnos.tabla.curso}">Curso</th>
+							<th th:text="#{alumnos.tabla.practica}">Práctica</th>
 							<th class="text-center" th:text="#{alumnos.tabla.acciones}">Acciones</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr th:each="alumno : ${alumnos}">
-							<td th:text="${alumno.apellidos}"></td>
+							<td th:text="${alumno.apellidos}" class="fw-bold"></td>
 							<td th:text="${alumno.nombre}"></td>
 							<td th:text="${alumno.email}"></td>
 							<td> <span th:if="${alumno.curso != null}" th:text="${alumno.curso.nombre}"
-									class="badge bg-info text-dark"></span>
-								<span th:unless="${alumno.curso != null}">Sin curso asignado</span>
+									></span>
+								<span th:unless="${alumno.curso != null}" class="text-danger">Sin curso asignado</span>
+							</td>
+							<td>
+							    <span th:if="${alumno.practica != null}">
+							        <span th:text="${alumno.practica.empresa.nombre}">Nombre Empresa</span>
+							    </span>
+							    
+							    <span th:unless="${alumno.practica != null}"  class="text-danger">
+							        Sin práctica asignada
+							    </span>
 							</td>
 							<td class="text-center">
 								<div class="d-flex justify-content-center gap-2">
 									<a th:href="@{/alumnos/detalles/{id}(id=${alumno.id})}"
-										class="btn btn-outline-info btn-sm"><i class="bi bi-eye"></i></a>
+										class="btn btn-info btn-sm"><i class="bi bi-eye"></i></a>
 									<a th:href="@{/alumnos/editar/{id}(id=${alumno.id})}"
-										class="btn btn-outline-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
+										class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
 										<form th:action="@{/alumnos/eliminar/{id}(id=${alumno.id})}" method="post" style="display:inline;">
 										    <button type="submit" 
-										            class="btn btn-outline-danger btn-sm"
+										            class="btn btn-danger btn-sm"
 										            th:onclick="return confirm([[#{alumnos.js.confirmar.eliminar}]])">
 										        <i class="bi bi-trash3"></i>
 										    </button>
@@ -96,7 +106,7 @@
 		$(document).ready(function () {
 			$('#tablaAlumnos').DataTable({
 				"columnDefs": [
-					{"orderable": false, "targets": 4} // La columna de acciones no se ordena
+					{"orderable": false, "targets": 5} // La columna de acciones no se ordena
 				],
 				"language": {
 					"search": [[#{tabla.buscar}]],

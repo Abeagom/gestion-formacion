@@ -29,20 +29,20 @@
 		                <div class="mb-3">
 		                    <label class="form-label fw-bold">Alumno Asignado</label>
                             <div class="d-flex align-items-center">
-                                <input type="text" th:value="${practica.alumno.apellidos + ', ' + practica.alumno.nombre}" class="form-control-plaintext" readonly>
-                                <a th:href="@{/alumnos/detalles/{id}(id=${practica.alumno.id})}" class="btn btn-sm btn-outline-primary ms-2">
-                                    <i class="bi bi-person"></i> Ver Perfil
-                                </a>
+								<a th:href="@{/alumnos/detalles/{id}(id=${practica.alumno.id})}" 
+								   class="text-primary text-decoration-underline-hover fw-medium">
+								    <span th:text="${practica.alumno.apellidos + ', ' + practica.alumno.nombre}">Nombre Alumno</span>
+								</a>
                             </div>
 		                </div>
 
 		                <div class="mb-3">
 		                    <label class="form-label fw-bold">Empresa de Destino</label>
                             <div class="d-flex align-items-center">
-		                        <input type="text" th:value="${practica.empresa.nombre}" class="form-control-plaintext" readonly>
-                                <a th:href="@{/empresas/detalles/{id}(id=${practica.empresa.id})}" class="btn btn-sm btn-outline-primary ms-2">
-                                    <i class="bi bi-building"></i> Ver Empresa
-                                </a>
+								<a th:href="@{/empresas/detalles/{id}(id=${practica.empresa.id})}" 
+								   class="text-primary text-decoration-underline-hover fw-medium">
+								    <span th:text="${practica.empresa.nombre}">Nombre Empresa</span>
+								</a>
                             </div>
 		                </div>
 
