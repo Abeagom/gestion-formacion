@@ -132,6 +132,17 @@ public class AlumnoControlador {
             model.addAttribute("cursos", cursoServicio.obtenerTodos());
             return esEdicion ? "alumnos/editar-alumno" : "alumnos/nuevo-alumno";
         }
+        
+        //Paso necesario para que el alumno no pierda la práctica (al no estar en el formulario de edición)
+        if (esEdicion) {
+            // Buscamos el alumno tal cual está en la base de datos ahora mismo
+            Alumno alumnoOriginal = alumnoServicio.obtenerPorId(alumno.getId());
+            
+            // Le pasamos la práctica que ya tenía el alumno original al del formulario
+            if (alumnoOriginal != null) {
+                alumno.setPractica(alumnoOriginal.getPractica());
+            }
+        }
 
         // Guardar alumno (creación o actualización)
         alumnoServicio.guardar(alumno);

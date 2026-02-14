@@ -17,11 +17,12 @@
                     
                     <li class="nav-item dropdown" th:if="${#authorization.expression('hasRole(''DIRECTIVA'')')}">
                         <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Administración
+                            Sección Directiva
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark shadow" aria-labelledby="adminDropdown">
                             <li><a class="dropdown-item" th:href="@{/directiva/profesores}">Profesores</a></li>
                             <li><a class="dropdown-item" th:href="@{/directiva/cursos}">Cursos</a></li>
+							<li><a class="dropdown-item" th:href="@{/directiva/estadisticas}">Estadísticas</a></li>
                         </ul>
                     </li>
                 </ul>

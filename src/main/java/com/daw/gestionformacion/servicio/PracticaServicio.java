@@ -1,11 +1,14 @@
 package com.daw.gestionformacion.servicio;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import com.daw.gestionformacion.modelo.Alumno;
+import com.daw.gestionformacion.modelo.Curso;
+import com.daw.gestionformacion.modelo.Empresa;
 import com.daw.gestionformacion.modelo.Practica;
 import com.daw.gestionformacion.repositorio.PracticaRepositorio;
 
@@ -14,10 +17,14 @@ public class PracticaServicio {
 	
 	private PracticaRepositorio practicaRepositorio;
 	private AlumnoServicio alumnoServicio;
+	private EmpresaServicio empresaServicio;
+	private CursoServicio cursoServicio;
 	
-	public PracticaServicio (PracticaRepositorio practicaRepositorio, AlumnoServicio alumnoServicio) {
+	public PracticaServicio (PracticaRepositorio practicaRepositorio, AlumnoServicio alumnoServicio, EmpresaServicio empresaServicio, CursoServicio cursoServicio) {
 		this.practicaRepositorio = practicaRepositorio;
 		this.alumnoServicio = alumnoServicio;
+		this.empresaServicio = empresaServicio;
+		this.cursoServicio = cursoServicio;
 	}
 	
 	public List<Practica> obtenerTodas() {
@@ -48,6 +55,26 @@ public class PracticaServicio {
         return alumnoServicio.obtenerTodos().stream()
                 .filter(a -> a.getPractica() == null)
                 .collect(Collectors.toList());
+    }
+    
+ // Obtener alumnos por empresa
+    public Map<String, Integer> obtenerAlumnosPorEmpresa() {
+        return empresaServicio.obtenerTodas().stream()
+            .collect(Collectors.toMap(
+                Empresa::getNombre,
+                e -> e.getPracticas() != null ? e.getPracticas().size() : 0
+            ));
+    }
+    
+    //Obtener alumnos que realizan prácticas de cada curso
+    public Map<String, Long> obtenerAlumnosConPracticaPorCurso() {
+        return cursoServicio.obtenerTodos().stream()
+            .collect(Collectors.toMap(
+                Curso::getNombre,
+                curso -> curso.getAlumnos().stream()
+                    .filter(alumno -> alumno.getPractica() != null) // Solo los que tienen práctica
+                    .count()
+            ));
     }
 
 }
