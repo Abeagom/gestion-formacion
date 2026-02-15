@@ -1,155 +1,65 @@
 package com.daw.gestionformacion.controlador;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+import java.util.List;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.daw.gestionformacion.modelo.Alumno;
-import com.daw.gestionformacion.modelo.ImportacionResultado;
 import com.daw.gestionformacion.servicio.AlumnoServicio;
-import com.daw.gestionformacion.servicio.CsvServicio;
-import com.daw.gestionformacion.servicio.CursoServicio;
 
 import jakarta.validation.Valid;
 
 
-@Controller
+@RestController
 @RequestMapping("api/alumnos")
+@CrossOrigin("*")
 public class AlumnoControladorRest {
 
     private final AlumnoServicio alumnoServicio;
-    private final CursoServicio cursoServicio;
-    private final CsvServicio csvServicio;
 
-    public AlumnoControladorRest(AlumnoServicio alumnoServicio, CursoServicio cursoServicio, CsvServicio csvServicio) {
+    public AlumnoControladorRest(AlumnoServicio alumnoServicio) {
         this.alumnoServicio = alumnoServicio;
-        this.cursoServicio=cursoServicio;
-        this.csvServicio = csvServicio;
     }
 
     @GetMapping
-    public String listar(Model model) {
-        model.addAttribute("alumnos", alumnoServicio.obtenerTodosOrdenados());
-        return "alumnos/lista";
+    public List<Alumno> listar() {
+        return alumnoServicio.obtenerTodosOrdenados();
     }
 
-    @PostMapping("/importar")
-    public String importar (@RequestParam("ficheroCsv") MultipartFile fichero, RedirectAttributes mensaje) {
-    	ImportacionResultado importacionResultado = csvServicio.cargarAlumnosDesdeCsv(fichero);
-    	
-    	if(importacionResultado.getExito() != null) {
-    		mensaje.addFlashAttribute("exito", importacionResultado.getExito());
-    	}
-    	
-    	if(importacionResultado.getError() != null || !importacionResultado.getError().isEmpty()) {
-    		mensaje.addFlashAttribute("errores", importacionResultado.getError());
-    	}
-        return "redirect:/alumnos";
+    @GetMapping("/{id}")
+    public Alumno obtenerUnAlumno(@PathVariable Integer id) {
+        return alumnoServicio.obtenerPorId(id);
     }
     
-    @GetMapping("/nuevo")
-    public String mostrarFormularioNuevo(Model model) {
-        // Pasamos un objeto Alumno vacío para que Thymeleaf lo rellene
-        model.addAttribute("alumno", new Alumno());
-        // También necesitamos la lista de cursos para el desplegable (select)
-        model.addAttribute("cursos", cursoServicio.obtenerTodos());
-        return "alumnos/nuevo-alumno"; 
-    }
-    
-    @GetMapping("/editar/{id}")
-    public String editar(@PathVariable Integer id, Model model, RedirectAttributes mensaje) {
-    	Alumno alumno = alumnoServicio.obtenerPorId(id);
-    	
-    	//Controlamos que el usuario no ponga en la URL un id que no exista
-    	if(alumno == null) {
-    		mensaje.addFlashAttribute("error", "El alumno no existe.");
-            return "redirect:/alumnos";
-    	}
-        model.addAttribute("alumno", alumno);
-        model.addAttribute("cursos", cursoServicio.obtenerTodos());
-        return "alumnos/editar-alumno";
-    }
-    
-    @GetMapping("/detalles/{id}")
-    public String verDetalles(@PathVariable Integer id, Model model, RedirectAttributes mensaje) {
-    	Alumno alumno = alumnoServicio.obtenerPorId(id);
-    	
-    	//Controlamos que el usuario no ponga en la URL un id que no exista
-    	if(alumno == null) {
-    		mensaje.addFlashAttribute("error", "El alumno no existe.");
-            return "redirect:/alumnos";
-    	}
-        model.addAttribute("alumno", alumno);
-        return "alumnos/detalles-alumno";
-    }
-    
-    @PostMapping("/eliminar/{id}")
-    public String eliminar(@PathVariable Integer id, RedirectAttributes mensaje) {
-
-        Alumno alumno = alumnoServicio.obtenerPorId(id);
-
-        if (alumno == null) {
-            mensaje.addFlashAttribute("error", "El alumno no existe.");
-            return "redirect:/alumnos";
-        }
-
-        alumnoServicio.eliminar(id);
-
-        mensaje.addFlashAttribute("exito", "Alumno eliminado correctamente.");
-
-        return "redirect:/alumnos";
-    }
-
-    
-    @PostMapping("/guardar")
-    public String guardarAlumno(
-            @Valid @ModelAttribute("alumno") Alumno alumno, 
-            BindingResult resultado, 
-            RedirectAttributes mensaje, 
-            Model model) {
-
-        boolean esEdicion = alumno.getId() != null; // Detectamos si es edición
-
-        // Comprobar errores de validación del Bean
-        if (resultado.hasErrors()) {
-            model.addAttribute("cursos", cursoServicio.obtenerTodos());
-            // Devolver la vista correspondiente según si es edición o creación
-            return esEdicion ? "alumnos/editar-alumno" : "alumnos/nuevo-alumno";
-        }
-
-        // Comprobar si el email ya existe en otro alumno
-        Alumno existente = alumnoServicio.buscarPorEmail(alumno.getEmail());
-        if (existente != null && (!esEdicion || !existente.getId().equals(alumno.getId()))) {
-            model.addAttribute("error", "Error: Ya existe un alumno registrado con el email " + alumno.getEmail());
-            model.addAttribute("cursos", cursoServicio.obtenerTodos());
-            return esEdicion ? "alumnos/editar-alumno" : "alumnos/nuevo-alumno";
-        }
-        
-        //Paso necesario para que el alumno no pierda la práctica (al no estar en el formulario de edición)
-        if (esEdicion) {
-            // Buscamos el alumno tal cual está en la base de datos ahora mismo
-            Alumno alumnoOriginal = alumnoServicio.obtenerPorId(alumno.getId());
-            
-            // Le pasamos la práctica que ya tenía el alumno original al del formulario
-            if (alumnoOriginal != null) {
-                alumno.setPractica(alumnoOriginal.getPractica());
-            }
-        }
-
-        // Guardar alumno (creación o actualización)
+    @PostMapping("crear")
+    public boolean crear(@Valid @RequestBody Alumno alumno) {
+        // Forzamos el ID a null para que siempre sea un registro nuevo
+        alumno.setId(null);
         alumnoServicio.guardar(alumno);
-
-        // Mensaje y redirección
-        mensaje.addFlashAttribute("exito", esEdicion ? "Alumno actualizado correctamente." : "Alumno creado correctamente.");
-        return "redirect:/alumnos";
+        return true;
     }
+    
+    @PutMapping("/{id}")
+    public boolean actualizar(@PathVariable Integer id, @Valid @RequestBody Alumno alumnoModificado) {
+    	boolean resultado = false;
+        // Buscamos el alumno que ya existe en la BD
+        Alumno alumnoActual = alumnoServicio.obtenerPorId(id);
+        
+        if (alumnoActual != null) {
+            // Mantenemos la práctica que ya tenía (así no desaparece al editar)
+            alumnoModificado.setPractica(alumnoActual.getPractica());
+            alumnoServicio.guardar(alumnoModificado);
+            resultado = true;
+        }
+        return resultado;
+    }
+    
 }
 

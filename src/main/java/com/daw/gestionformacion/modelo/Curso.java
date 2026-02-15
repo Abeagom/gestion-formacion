@@ -16,6 +16,8 @@ import jakarta.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 @Table(name = "cursos")
@@ -36,6 +38,7 @@ public class Curso {
 
     @OneToMany(mappedBy = "curso")
     @OrderBy("apellidos ASC, nombre ASC")
+    @JsonIgnore
     private List<Alumno> alumnos;
     
     public Curso() {

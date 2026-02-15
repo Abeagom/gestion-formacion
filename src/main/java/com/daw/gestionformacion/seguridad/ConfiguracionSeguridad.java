@@ -26,7 +26,8 @@ public class ConfiguracionSeguridad {
 	@Bean
 	public SecurityFilterChain cadenaSeguridad(HttpSecurity http) throws Exception {
 
-		http.authorizeHttpRequests(auth -> auth.requestMatchers("/login").permitAll() // login para todos
+		http.csrf(csrf -> csrf.ignoringRequestMatchers("/api/alumnos/**"))
+			.authorizeHttpRequests(auth -> auth.requestMatchers("/login", "/api/alumnos/**").permitAll() // login para todos
 				.requestMatchers("/directiva/**").hasRole("DIRECTIVA") // solo directiva
 				.anyRequest().authenticated() // resto profesores logueados
 		).formLogin(form -> form.loginPage("/login") // página de login

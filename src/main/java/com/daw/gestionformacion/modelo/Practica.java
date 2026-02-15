@@ -15,6 +15,8 @@ import java.time.LocalDate;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 @Table(name = "practicas")
@@ -27,6 +29,7 @@ public class Practica {
     @OneToOne
     @JoinColumn(name = "alumno_id", unique = true)
     @NotNull(message = "El alumno es obligatorio")
+    @JsonIgnore
     private Alumno alumno;
 
     @ManyToOne

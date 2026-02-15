@@ -18,6 +18,8 @@ import jakarta.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "profesores")
 public class Profesor {
@@ -42,6 +44,7 @@ public class Profesor {
     @NotBlank(message = "La contraseña es obligatoria")
     @Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres")
 	@Column(nullable = false)
+    @JsonIgnore
 	private String password;
 	
     @NotNull(message = "El tipo de profesor es obligatorio")
@@ -50,6 +53,7 @@ public class Profesor {
     
     @OneToMany(mappedBy = "tutor")
     @OrderBy("nombre ASC")
+    @JsonIgnore
     private List<Curso> cursos;
     
     public Profesor() {
