@@ -1,5 +1,6 @@
 package com.daw.gestionformacion.servicio;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -59,22 +60,31 @@ public class PracticaServicio {
     
  // Obtener alumnos por empresa
     public Map<String, Integer> obtenerAlumnosPorEmpresa() {
-        return empresaServicio.obtenerTodas().stream()
-            .collect(Collectors.toMap(
-                Empresa::getNombre,
-                e -> e.getPracticas() != null ? e.getPracticas().size() : 0
-            ));
+    	Map <String, Integer> resultado = new HashMap();
+    	
+    	for(Empresa e : empresaServicio.obtenerTodas()) {
+    		int total = e.getPracticas() != null? e.getPracticas().size() : 0;
+    		resultado.put(e.getNombre(), total);
+    	}
+    	
+    	return resultado;
     }
     
     //Obtener alumnos que realizan prácticas de cada curso
-    public Map<String, Long> obtenerAlumnosConPracticaPorCurso() {
-        return cursoServicio.obtenerTodos().stream()
-            .collect(Collectors.toMap(
-                Curso::getNombre,
-                curso -> curso.getAlumnos().stream()
-                    .filter(alumno -> alumno.getPractica() != null) // Solo los que tienen práctica
-                    .count()
-            ));
+    public Map<String, Integer> obtenerAlumnosConPracticaPorCurso() {
+    	Map <String, Integer> resultado = new HashMap();
+    	
+    	for(Curso curso : cursoServicio.obtenerTodos()) {
+    		int contador = 0;
+    		for(Alumno alumno : curso.getAlumnos()) {
+    			if(alumno.getPractica() != null) {
+    				contador ++;
+    			}
+    		}
+    		resultado.put(curso.getNombre(), contador);
+    	}
+    	
+    	return resultado;
     }
 
 }

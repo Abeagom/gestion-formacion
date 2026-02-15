@@ -23,17 +23,17 @@ public class EstadisticasControlador {
 	
 	@GetMapping
 	public String obtenerEstadisticas(Model model) {
-		// Mapa de alumnos - empresa
+		// Mapa de alumnos con practicas - empresa
         Map<String, Integer> empresasMap = practicaServicio.obtenerAlumnosPorEmpresa();
         
         ArrayList<String> nombreEmpresas = new ArrayList<>(empresasMap.keySet());
         ArrayList<Integer> valoresEmpresas = new ArrayList<>(empresasMap.values());
         
      // Mapa de alumnos con práctica - curso
-        Map<String, Long> cursosMap = practicaServicio.obtenerAlumnosConPracticaPorCurso();
+        Map<String, Integer> cursosMap = practicaServicio.obtenerAlumnosConPracticaPorCurso();
         
         ArrayList<String> nombreCursos= new ArrayList<>(cursosMap.keySet());
-        ArrayList<Long> valoresCursos = new ArrayList<>(cursosMap.values());
+        ArrayList<Integer> valoresCursos = new ArrayList<>(cursosMap.values());
 
         model.addAttribute("nombresEmpresas", nombreEmpresas);
         model.addAttribute("valoresEmpresas", valoresEmpresas);
