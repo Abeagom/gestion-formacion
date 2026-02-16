@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.daw.gestionformacion.modelo.Alumno;
 import com.daw.gestionformacion.modelo.Profesor;
 import com.daw.gestionformacion.modelo.TipoProfesor;
 import com.daw.gestionformacion.servicio.ProfesorServicio;
@@ -19,7 +18,7 @@ import com.daw.gestionformacion.servicio.ProfesorServicio;
 import jakarta.validation.Valid;
 
 @Controller
-@RequestMapping("directiva/profesores")
+@RequestMapping("/directiva/profesores")
 public class ProfesorControlador {
 	
     private final ProfesorServicio profesorServicio;
@@ -114,6 +113,11 @@ public class ProfesorControlador {
 
         if (profesor == null) {
             mensaje.addFlashAttribute("error", "El profesor no existe.");
+            return "redirect:/directiva/profesores";
+        }
+        
+        if(profesor.getCursos() != null) {
+            mensaje.addFlashAttribute("error", "El profesor tiene cursos asociados.");
             return "redirect:/directiva/profesores";
         }
 

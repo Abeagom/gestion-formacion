@@ -11,14 +11,14 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 @Configuration
 public class ConfiguracionInternacionalizacion implements WebMvcConfigurer {
 
-    // Localizador de idioma: Guarda la elección del usuario en su sesión
+    // Guarda la elección del usuario en su sesión
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver slr = new SessionLocaleResolver();
         return slr;
     }
 
-    // Interceptor: Detecta si en la URL viene el parámetro ?lang=en o ?lang=es
+    // Detecta si en la URL viene el parámetro ?lang=en o ?lang=es
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
@@ -28,7 +28,7 @@ public class ConfiguracionInternacionalizacion implements WebMvcConfigurer {
 
     // Registrar el interceptor para que funcione en toda la web
     @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(localeChangeInterceptor());
+    public void addInterceptors(InterceptorRegistry ir) {
+        ir.addInterceptor(localeChangeInterceptor());
     }
 }

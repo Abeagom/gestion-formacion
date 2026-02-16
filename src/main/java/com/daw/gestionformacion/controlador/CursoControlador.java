@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.daw.gestionformacion.modelo.Alumno;
 import com.daw.gestionformacion.modelo.Curso;
 import com.daw.gestionformacion.servicio.CursoServicio;
 import com.daw.gestionformacion.servicio.ProfesorServicio;
@@ -18,7 +17,7 @@ import com.daw.gestionformacion.servicio.ProfesorServicio;
 import jakarta.validation.Valid;
 
 @Controller
-@RequestMapping("directiva/cursos")
+@RequestMapping("/directiva/cursos")
 public class CursoControlador {
 
 	private CursoServicio cursoServicio;

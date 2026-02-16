@@ -48,4 +48,12 @@ public class AlumnoServicio {
     public void eliminar (Integer id){
         alumnoRepositorio.deleteById(id);
     }
+    
+    public Alumno guardarYDevolver(Alumno alumno) {
+        // Forzar null si para asegurar que sea nuevo
+        alumno.setId(null);
+        // save devuelve la entidad persistida con ID generado
+        return alumnoRepositorio.save(alumno);
+    }
+
 }

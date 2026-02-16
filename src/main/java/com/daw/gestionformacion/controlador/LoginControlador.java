@@ -12,7 +12,7 @@ public class LoginControlador {
     }
 
     @GetMapping("/")
-    public String home() {
-        return "index"; // página principal después de login
+    public String index() {
+        return "index";
     }
 }
