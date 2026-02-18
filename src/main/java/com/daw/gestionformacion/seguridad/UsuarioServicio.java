@@ -24,9 +24,6 @@ public class UsuarioServicio implements UserDetailsService {
         // Buscar profesor por email
         Profesor profesor = profesorRepositorio.findByEmail(email)
             .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
-
-        //List<SimpleGrantedAuthority> roles = new ArrayList<>();
-        //roles.add(new SimpleGrantedAuthority("ROLE_" + profesor.getTipo().name()));
         
         // Devolver un objeto User
         return new User(

@@ -34,7 +34,7 @@ public class Curso {
 
     @ManyToOne
     @JoinColumn(name = "profesor_id")
-    private Profesor tutor; // Profesor que lo gestiona
+    private Profesor tutor;
 
     @OneToMany(mappedBy = "curso")
     @OrderBy("apellidos ASC, nombre ASC")

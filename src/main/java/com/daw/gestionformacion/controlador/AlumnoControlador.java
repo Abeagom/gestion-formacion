@@ -116,7 +116,7 @@ public class AlumnoControlador {
             RedirectAttributes mensaje, 
             Model model) {
 
-        boolean esEdicion = alumno.getId() != null; // Detectamos si es edición
+        boolean esEdicion = alumno.getId() != null; // Si tiene id es edición
 
         // Comprobar errores de validación del Bean
         if (resultado.hasErrors()) {
@@ -126,8 +126,10 @@ public class AlumnoControlador {
         }
 
         // Comprobar si el email ya existe en otro alumno
-        Alumno existente = alumnoServicio.buscarPorEmail(alumno.getEmail());
-        if (existente != null && (!esEdicion || !existente.getId().equals(alumno.getId()))) {
+        Alumno alumnoConMismoEmail = alumnoServicio.buscarPorEmail(alumno.getEmail());
+        
+        //Hay un alumno con ese email y (estoy creando uno nuevo o el email no le pertenece a este alumno)
+        if (alumnoConMismoEmail != null && (!esEdicion || !alumnoConMismoEmail.getId().equals(alumno.getId()))) {
             model.addAttribute("error", "Error: Ya existe un alumno registrado con el email " + alumno.getEmail());
             model.addAttribute("cursos", cursoServicio.obtenerTodos());
             return esEdicion ? "alumnos/editar-alumno" : "alumnos/nuevo-alumno";

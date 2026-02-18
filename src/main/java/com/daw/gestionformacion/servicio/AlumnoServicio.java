@@ -50,7 +50,7 @@ public class AlumnoServicio {
     }
     
     public Alumno guardarYDevolver(Alumno alumno) {
-        // Forzar null si para asegurar que sea nuevo
+        // Forzar null para asegurar que sea nuevo
         alumno.setId(null);
         // save devuelve la entidad persistida con ID generado
         return alumnoRepositorio.save(alumno);

@@ -49,7 +49,7 @@ public class CsvServicio {
 		//Comprobación de tamaño
 		long pesoMaximo = 2*1024*1024;
 		if(archivoCsv.getSize() > pesoMaximo) {
-			listaErrores.add("El archivo es demasiado grande (2MB máximo)");
+			listaErrores.add("El archivo es demasiado grande (2MiB máximo)");
 			resultado.setErrores(listaErrores);
 			return resultado;
 		}
@@ -82,7 +82,7 @@ public class CsvServicio {
 			}
 
 			if (!listaErrores.isEmpty()) {
-				// Unimos todos los errores con un separador claro
+				// Unimos todos los errores
 				resultado.setErrores(listaErrores);
 			}
 
@@ -96,10 +96,9 @@ public class CsvServicio {
 	}
 
 	private void procesarLinea(String linea, DateTimeFormatter fmt) throws Exception {
-		//String[] campos = linea.split(";");
-		String[] campos = linea.split(";", -1);
-		if (campos.length < 4) { //5
-			throw new IllegalArgumentException("Faltan datos en la fila");
+		String[] campos = linea.split(";");
+		if (campos.length != 5) {
+			throw new IllegalArgumentException("La fila tiene ");
 		}
 
 		Alumno al = new Alumno();
@@ -133,23 +132,10 @@ public class CsvServicio {
 		}
 		al.setEmail(email);
 
-		// Para fechaNacimiento
-		try {
-			LocalDate fechaNacimiento = LocalDate.parse(campos[3].trim(), fmt);
-			int edadMinima = 12;
-			if (!fechaNacimiento.isBefore(LocalDate.now())) {
-				throw new IllegalArgumentException("La fecha de nacimiento es posterior a hoy");
-			} else if (fechaNacimiento.isAfter(LocalDate.now().minusYears(edadMinima))) {
-				throw new IllegalArgumentException("El alumno debe tener al menos " + edadMinima + " años");
-			}
-			al.setFechaNacimiento(fechaNacimiento);
-		} catch (DateTimeParseException e) {
-			throw new IllegalArgumentException("La fecha " + campos[3] + " no tiene un formato válido");
-		}
+
 
 		// Para curso (se permite no tener curso al importar)
-		// Solo intentamos leer la posición 4 si el array es lo bastante largo
-		String idCursoStr = (campos.length > 4) ? campos[4].trim() : "";
+		String idCursoStr = campos[3].trim();
 
 		if (!idCursoStr.isBlank()) {
 		    try {
@@ -164,6 +150,20 @@ public class CsvServicio {
 		    }
 		} else {
 		    al.setCurso(null);
+		}
+		
+		// Para fechaNacimiento
+		try {
+			LocalDate fechaNacimiento = LocalDate.parse(campos[4].trim(), fmt);
+			int edadMinima = 12;
+			if (!fechaNacimiento.isBefore(LocalDate.now())) {
+				throw new IllegalArgumentException("La fecha de nacimiento es posterior a hoy");
+			} else if (fechaNacimiento.isAfter(LocalDate.now().minusYears(edadMinima))) {
+				throw new IllegalArgumentException("El alumno debe tener al menos " + edadMinima + " años");
+			}
+			al.setFechaNacimiento(fechaNacimiento);
+		} catch (DateTimeParseException e) {
+			throw new IllegalArgumentException("La fecha " + campos[4] + " no tiene un formato válido");
 		}
 
 		// Si todo está bien, guardamos el alumno

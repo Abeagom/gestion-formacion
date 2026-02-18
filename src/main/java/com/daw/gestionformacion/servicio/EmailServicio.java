@@ -20,7 +20,7 @@ public class EmailServicio {
 	public void enviarEmailAsignacion(Practica practica) {
         SimpleMailMessage mensaje = new SimpleMailMessage();
         
-        mensaje.setFrom("emailDelEmisor");
+        mensaje.setFrom("PONER CORREO DE ORIGEN");
         
         // Destinatario
         mensaje.setTo(practica.getAlumno().getEmail());
@@ -33,10 +33,9 @@ public class EmailServicio {
         // Cuerpo del mensaje
         String cuerpo = "Estimado/a " + practica.getAlumno().getNombre() + ",\n\n" +
                         "Te informamos de que se ha tramitado tu asignación de prácticas:\n\n" +
-                        "• Empresa: " + practica.getEmpresa().getNombre() + "\n" +
-                        "• Fecha de inicio: " + fechaFormateada + "\n\n" +
-                        "Puedes consultar todos los detalles en la plataforma de gestión.\n" +
-                        "¡Mucha suerte en esta nueva etapa!";
+                        "- Empresa: " + practica.getEmpresa().getNombre() + "\n" +
+                        "- Fecha de inicio: " + fechaFormateada + "\n\n" +
+                        "Puedes consultar todos los detalles en la plataforma de gestión.";
         
         mensaje.setText(cuerpo);
 
